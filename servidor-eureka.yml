@@ -11,4 +11,5 @@ eureka:
     serviceUrl:
       # Direccion de acceso desde el cliente y otros microservicios
       # defaultZone: http://localhost:8761/eureka 
+      # Direccion IP Andrea (runea eureka)
       defaultZone: http://172.10.2.96:8761/eureka 
