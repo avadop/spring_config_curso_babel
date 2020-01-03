@@ -1,0 +1,37 @@
+# Nombre identificador del servicio
+spring:
+  application:
+    name: servidor-zuul
+  cloud:
+    config:
+    # Configuracion de url del cloud para acceder a configs
+      uri: http://172.10.4.222:8888
+      
+server:
+  port: 7000 #puerto del zuul service (por defecto)
+zuul:
+  ignoredServices: '*' 
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+  # IMPORTANTE: marca a través de que URL se van a repartir las peticiones
+  routes:
+    # Propiedad de cada servicio necesario
+    servicio-vuelos: 
+      # Lo que el cliente va a poner detrás de la direccion del puerto
+      #/** cualquier cosa, parámetros
+      path: /vuelos/**
+      # Lo que llegue con esa peticion será derivada al serviceId (a través de eureka)
+      serviceId: servicio-vuelos 
+      # Zuul puede transferir peticiones a través de la direccion real del servicio o 
+      # a través de eureka. Se sustituiria serviceId por el url -> direccion real service
+      #url: http://localhost:9000
+    servicio-hoteles: 
+      path: /hoteles/** 
+      serviceId: servicio-hoteles
+    servicio-reservas: 
+      path: /reservas/** 
+      serviceId: servicio-reservas
+      
+eureka:                  
+  client:
+    serviceUrl:
+      defaultZone: http://172.10.2.96:8761/eureka
